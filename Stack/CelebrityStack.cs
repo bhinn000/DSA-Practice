@@ -14,23 +14,25 @@ class CelebrityStackProblem
     int capacity;
     int count;
     int[] celebrityStack;
+    int[] tempCelebrityStack;
+    int numOfStackComponent;
+    int N;
 
     public void CelebrityOrNot(int[,] celebrityStatus, int[]celebrityStack)
     {
-
         int specificOne = Pop(celebrityStack);
-        Console.WriteLine(specificOne);
+        //Console.WriteLine(specificOne);
         
         int specificTwo = Pop(celebrityStack);
-        Console.WriteLine(specificTwo);
+        //Console.WriteLine(specificTwo);
 
         Push(specificTwo, celebrityStack);
         Push(specificOne, celebrityStack);
 
         if (celebrityStatus[specificOne,specificTwo] == 1)
         {
-            Console.WriteLine($"{specificTwo} is known");
-            Console.WriteLine($"{specificOne} is not a celebrity");
+            //Console.WriteLine($"{specificTwo} is known");
+            //Console.WriteLine($"{specificOne} is not a celebrity");
             int removedOne;
             do
             {
@@ -42,8 +44,8 @@ class CelebrityStackProblem
         }
         else if (celebrityStatus[specificOne,specificTwo] == 0)
         {
-            Console.WriteLine($"{specificTwo} is  not a celebrity");
-            Console.WriteLine($"{specificOne} may be a celebrity");
+            //Console.WriteLine($"{specificTwo} is  not a celebrity");
+            //Console.WriteLine($"{specificOne} may be a celebrity");
             int removedOne;
             do
             {
@@ -59,10 +61,11 @@ class CelebrityStackProblem
 
     }
 
-    public void ToEnsure(CelebrityStackProblem celebrityStackProblem, int[,] celebrityStatus)
+    public int ToEnsure(CelebrityStackProblem celebrityStackProblem, int[,] celebrityStatus)
     {
         int lastPerson=celebrityStackProblem.Peek(celebrityStack);
         int celebrity = 0;
+        //CelebrityStackProblem s2 = new CelebrityStackProblem();
         for (int i = 0; i < celebrityStatus.GetLength(0); i++)
         {
             if (celebrityStatus[i,lastPerson] == 1)
@@ -73,8 +76,10 @@ class CelebrityStackProblem
         if (celebrity==0)//if still it is known by anyone
         {
             Console.WriteLine("No there is no any celebrity");
+            return -1;
         }
-            Console.WriteLine($"Hurray ! {lastPerson} is celebrity");
+            //Console.WriteLine($"Hurray ! {lastPerson} is celebrity at {numOfStackComponent}");
+            return numOfStackComponent;
     }
 
     public void invitePeople(int[] celebrityStack)
@@ -82,6 +87,7 @@ class CelebrityStackProblem
         Push(0, celebrityStack);
         Push(1, celebrityStack);
         Push(2, celebrityStack);
+        Push(3, celebrityStack);
     }
 
     void Push(int value, int[] celebrityStack)
@@ -130,12 +136,23 @@ class CelebrityStackProblem
     {
         if (top != -1)
         {
-            Console.WriteLine($"There is {celebrityStack[top]} at the top");
+            //Console.WriteLine($"There is {celebrityStack[top]} at the top");
             return celebrityStack[top];
         }
         return -1;
     }
 
+    int Position(CelebrityStackProblem s1, int[] celebrityStack)
+    {
+        numOfStackComponent = N-1;
+        int lastPerson = s1.Peek(celebrityStack);
+        while (celebrityStack[numOfStackComponent] != lastPerson)
+        {
+            numOfStackComponent--;
+        }
+        return numOfStackComponent;
+
+    }
     static void Main()
     {
         CelebrityStackProblem s1 = new CelebrityStackProblem();
@@ -143,42 +160,41 @@ class CelebrityStackProblem
         //                          {0,0,1},
         //                          {1,0,1},
         //                          {0,0,0}
+        //CelebrityStackProblem s2 = new CelebrityStackProblem();
+        //                         };
+        //int[,] celebrityStatus = {
+        //                          {0,1,0},
+        //                          {0,0,0},
+        //                          {0,1,0}
         //                         };
         int[,] celebrityStatus = {
-                                  {0,1,0},
-                                  {0,0,0},
-                                  {0,1,0}
+                                  {0,1,0,0},
+                                  {0,0,0,0},
+                                  {0,1,0,0},
+                                  {0,1,0,0}
                                  };
-        int N=celebrityStatus.GetLength(0);
-        s1.celebrityStack = new int[N];//define according to celebrityStatus , number of rows
+        s1.N=celebrityStatus.GetLength(0);
+        s1.celebrityStack = new int[s1.N];//define according to celebrityStatus , number of rows
         s1.capacity= s1.celebrityStack.Length;
         s1.invitePeople(s1.celebrityStack);
+        s1.tempCelebrityStack = new int[s1.N]; 
+        s1.tempCelebrityStack = s1.celebrityStack;
         s1.count = s1.Count();
         while (s1.count > 1)
         {
             s1.CelebrityOrNot(celebrityStatus , s1.celebrityStack);
         }
 
-        s1.ToEnsure(s1,celebrityStatus);
+        //s1.ToEnsure(s1,celebrityStatus);
+        if(s1.ToEnsure(s1, celebrityStatus) != -1)
+        {
+            Console.WriteLine( s1.Position(s1,s1.tempCelebrityStack));
+        }
 
     }
 
 
 }
 
-
 //Output: 
-//2
-//1
-//1 is known
-//2 is not a celebrity
-//1
-//1
-//1 is not a celebrity
-//1 may be a celebrity
-//1
-//0
-//0 is  not a celebrity
-//1 may be a celebrity
-//There is 1 at the top
-//Hurray ! 1 is celebrity
+//Hurray! 1 is celebrity
