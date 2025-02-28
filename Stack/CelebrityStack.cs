@@ -22,7 +22,7 @@ public class Program
     public static void Main(string[] args)
     {
         int t=int.Parse(Console.ReadLine());
-        while (t-- > 0)
+        while (t -- > 0)
         {
 
             int n = int.Parse(Console.ReadLine());
