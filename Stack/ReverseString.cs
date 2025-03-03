@@ -4,7 +4,7 @@
 class ReverseString
 {
     //string sentence= " I  am  Bh";
-    string sentence = "I am Bhintuna";
+    //string sentence = "I am Bhintuna";
     //void InputString()
     //{
     //    Console.WriteLine("Say Something");
@@ -16,11 +16,20 @@ class ReverseString
     int top = -1;
     //int capacity;//length of the words
 
-    void Push(char charac) //to push the character to the stack
+    void Push(string sentence) //to push the character to the stack
     {
-            myStack.Add(charac);
-            top++;
-        
+        string trimmedSentence = sentence.Trim();
+
+        for (int cp = 0; cp < trimmedSentence.Length; cp++)
+        {
+            if (trimmedSentence[cp] != ' ')
+            {
+                myStack.Add(trimmedSentence[cp]);
+                top++;
+            }
+        }
+
+       
     }
 
     int CountWords(string sentence)
@@ -55,17 +64,30 @@ class ReverseString
 
     }
 
+    void Pop()
+    {
+        if (top != -1)
+        {
+            top--;
+        }
+        else
+        {
+            Console.WriteLine("The stack is empty");
+        }
+    }
+
     //"I am Bhintuna"
     //" I am Bhintuna " : leading and trailing space around the sentence
     //"I  am  Bhintuna" : double space 
-    
 
     static void Main(string[] args)
     {
         ReverseString reverseString = new ReverseString();
-        int wordCount = reverseString.CountWords(reverseString.sentence);
-        int stackCapacity=reverseString.StackMaxCapacity(reverseString.sentence);
-        reverseString.Push('a');
+        string sentence = "I am Bhintuna";
+        //int wordCount = reverseString.CountWords(sentence);
+        //int stackCapacity=reverseString.StackMaxCapacity(sentence);
+        
+        reverseString.Push(sentence);
     }
 
 
