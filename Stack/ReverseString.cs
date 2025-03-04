@@ -3,11 +3,12 @@
 
 class ReverseString
 {
-    //void InputString()
-    //{
-    //    Console.WriteLine("Say Something");
-    //    sentence=Console.ReadLine();
-    //}
+    string InputString()
+    {
+        Console.WriteLine("Say Something");
+        string sentence = Console.ReadLine();
+        return sentence;
+    }
 
     List<char> myStack = new List<char>();
     List<char> myAnotherStack = new List<char>();
@@ -18,7 +19,7 @@ class ReverseString
     {
         string trimmedSentence = sentence.Trim();
 
-        for (int cp = 0; cp < trimmedSentence.Length;  cp++)
+        for (int cp = 0; cp < trimmedSentence.Length; cp++)
          {
             if (trimmedSentence[cp] != ' ')
             {
@@ -33,7 +34,7 @@ class ReverseString
                         {
                             PushReverseString(Pop(givenStack));
                         }
-
+                        PushReverseString(' ');
 
                     }
                 }
@@ -42,7 +43,7 @@ class ReverseString
                     while (top != -1)
                     {
                         PushReverseString(Pop(givenStack));
-                    }    
+                    }
                 }
             }
         }
@@ -57,22 +58,26 @@ class ReverseString
 
     char Pop(List<char> givenStack)
     {
-        Console.WriteLine(givenStack[top]);
         char poppedOut = givenStack[top];
         givenStack.RemoveAt(top--);
         return poppedOut;
     }
 
+    void Display()
+    {
+        Console.Write("This stack contains ");
+        myAnotherStack.ForEach(x => Console.Write(x));
+    }
+
     static void Main(string[] args)
     {
         ReverseString reverseString = new ReverseString();
-        string sentence = "Ra M";
+        string sentence = " i like this program very much ";
+        //string sentence = reverseString.InputString();
 
         reverseString.PushEachWord(sentence , reverseString.myStack);
-
+        reverseString.Display();
     }
-
-
 
 }
 
