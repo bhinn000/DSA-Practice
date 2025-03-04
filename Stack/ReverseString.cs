@@ -3,6 +3,10 @@
 
 class ReverseString
 {
+    List<char> myStack = new List<char>();
+    List<char> myAnotherStack = new List<char>();
+    int top = -1;
+    int topAnother = -1;
     string InputString()
     {
         Console.WriteLine("Say Something");
@@ -10,39 +14,31 @@ class ReverseString
         return sentence;
     }
 
-    List<char> myStack = new List<char>();
-    List<char> myAnotherStack = new List<char>();
-    int top = -1;
-    int topAnother = -1;
-
     void PushEachWord(string sentence, List<char> givenStack)
     {
-        string trimmedSentence = sentence.Trim();
-
-        for (int cp = 0; cp < trimmedSentence.Length; cp++)
+        for (int cp = 0; cp < sentence.Length; cp++)
          {
-            if (trimmedSentence[cp] != ' ')
+            if (sentence[cp] != ' ')
             {
-                givenStack.Add(trimmedSentence[cp]);
+                givenStack.Add(sentence[cp]);
                 top++;
 
-                if (cp < trimmedSentence.Length - 1)
+                if (cp < sentence.Length - 1)
                 {
-                    if (trimmedSentence[cp + 1] == ' ')
+                    if (sentence[cp + 1] == ' ')
                     {
                         while (top != -1)
                         {
-                            PushReverseString(Pop(givenStack));
+                            ReverseThis(Pop(givenStack));
                         }
-                        PushReverseString(' ');
-
+                        ReverseThis(' ');
                     }
                 }
                 else
                 {
                     while (top != -1)
                     {
-                        PushReverseString(Pop(givenStack));
+                        ReverseThis(Pop(givenStack));
                     }
                 }
             }
@@ -50,7 +46,7 @@ class ReverseString
 
     }
 
-    void PushReverseString(char charac)
+    void ReverseThis(char charac)
     {
         myAnotherStack.Add(charac);
         topAnother++;
@@ -65,7 +61,6 @@ class ReverseString
 
     void Display()
     {
-        Console.Write("This stack contains ");
         myAnotherStack.ForEach(x => Console.Write(x));
     }
 
@@ -73,15 +68,11 @@ class ReverseString
     {
         ReverseString reverseString = new ReverseString();
         string sentence = " i like this program very much ";
+        string trimmedSentence = sentence.Trim();
         //string sentence = reverseString.InputString();
 
-        reverseString.PushEachWord(sentence , reverseString.myStack);
+        reverseString.PushEachWord(trimmedSentence, reverseString.myStack);
         reverseString.Display();
     }
 
 }
-
-
-//"I am Bhintuna"
-//" I am Bhintuna " : leading and trailing space around the sentence
-//"I  am  Bhintuna" : double space 
